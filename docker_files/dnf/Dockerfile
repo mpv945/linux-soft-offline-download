@@ -7,6 +7,7 @@ RUN dnf install -y \
     curl \
     tar \
     gzip \
+    --allowerasing  \
     && dnf clean all
 
 RUN dnf config-manager \
