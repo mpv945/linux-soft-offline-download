@@ -19,7 +19,7 @@ RUN pacman -Sy --noconfirm \
         aria2
 
 RUN mkdir -p ${REPO_DIR}
-
+# 能搜索到包，说明包就存在
 RUN pacman -Ss docker
 # RUN pacman -Q docker
 
@@ -59,14 +59,15 @@ repo-add \
     offline.db.tar.gz \
     *.pkg.tar.zst; \
 \
-tar czf \
-    arch-offline-repo.tar.gz \
-    *.pkg.tar.zst \
-    offline.db.tar.gz \
-    offline.files.tar.gz \
-    final_packages.txt; \
-\
-echo "Repository Build Finished"; \
 '
+# 最后通过Github Actions 进行打包，所以从最后代码移除
+#\
+#tar czf \
+#    arch-offline-repo.tar.gz \
+#    *.pkg.tar.zst \
+#    offline.db.tar.gz \
+#    offline.files.tar.gz \
+#    final_packages.txt; \
+#\
 
-RUN ls -lah /offline
+RUN ls -lah ${REPO_DIR}
