@@ -1,6 +1,10 @@
 # 使用
 ```bash
 
+git add .
+git commit -m "同步参数yum reposync 方式" 
+git -c http.proxy=http://127.0.0.1:7897 -c https.proxy=http://127.0.0.1:7897 push origin main
+
 4. 压缩优化（减少 GitHub artifact）： tar -I 'zstd -19' -cf repo.tar.zst output
 
 # docker 运行多行命令
@@ -24,7 +28,9 @@ yum系
 rpm -qpR docker-ce*.rpm
 
 极简方案（直接RPM安装）：
+# 直接 rpm 安装（简单但不推荐）
 rpm -ivh xxx.rpm 或者 rpm -Uvh --force --nodeps *.rpm
+推荐
 cd /opt/docker-rpms 然后 yum localinstall -y *.rpm
 
 创建本地仓库
@@ -69,6 +75,7 @@ baseurl=file:///mnt/repo/docker-ce-stable
 # dnf系列
 普通安装
 dnf install ./pkgs/*.rpm
+dnf install -y /offline/docker/*.rpm
 
 # dnf reposync
 
