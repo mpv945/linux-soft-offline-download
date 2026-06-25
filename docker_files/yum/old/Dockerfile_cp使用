@@ -27,4 +27,10 @@ RUN repotrack \
       docker-ce-cli \
       containerd.io
 
-RUN createrepo /offline && ls -lah /offline
+RUN createrepo /offline
+
+FROM scratch
+
+COPY --from=builder /offline /
+
+CMD ["bash"]

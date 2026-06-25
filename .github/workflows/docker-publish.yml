@@ -45,26 +45,43 @@ jobs:
 #          tar czf docker-offline.tar.gz docker-offline
 #          # XZ_OPT='-T0 -6 -vv' tar -vvcJf docker-offline.tar.xz docker-offline
 
+# cp 使用
+#      - name: Build
+#        run: |
+#          export PROJECT_DIR=$GITHUB_WORKSPACE
+#          docker build \
+#            -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
+#            -t docker-offline \
+#            $PROJECT_DIR/docker_files/yum/old
+#
+#      - name: Export
+#        run: |
+#          id=$(docker create docker-offline bash)
+#
+#          docker cp \
+#            $id:/ \
+#            offline
+#
+#          docker rm $id
+
+# 需要镜像
+# docker buildx build -t offline-builder .
+# docker run --rm \
+#      -v $(pwd)/out:/out \
+#      offline-builder \
+#      cp -r /offline /out
+# 不生成镜像，直接构建后就输出文件， 最后.或者指定目录，表示Dockerfile 可以访问的目录
       - name: Build
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
-          docker build \
+          docker buildx build \
             -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
-            -t docker-offline \
+            --output type=local,dest=./offline \
             $PROJECT_DIR/docker_files/yum/old
-
-      - name: Export
-        run: |
-          id=$(docker create docker-offline bash)
-      
-          docker cp \
-            $id:/ \
-            offline
-      
-          docker rm $id
 
       - name: Package
         run: |
+          ll -lah 
           tar czf docker-offline.tar.gz offline
 
       - name: Upload Artifact
