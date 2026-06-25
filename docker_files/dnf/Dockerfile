@@ -24,4 +24,4 @@ RUN dnf download --resolve --alldeps \
       docker-buildx-plugin \
       docker-compose-plugin
 
-RUN createrepo_c /offline && ls -lah /offline
+RUN createrepo_c --update /offline && ls -lah /offline
