@@ -51,7 +51,7 @@ cat final_packages.txt \
 | grep -v '\.so=' \
 | sed 's/[><=].*$//' \
 | sort -u \
-> download.list;
+> download.list; \
 \
 pacman -Sw \
     --noconfirm \
