@@ -1,0 +1,91 @@
+name: Docker
+
+on:
+  #schedule:
+  #  - cron: '30 17 * * *'
+  push:
+    branches: [ "main" ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    container:
+      image: centos:7
+      
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        
+      - name: Install tools
+        run: |
+          yum install -y epel-release
+          yum install -y yum-utils createrepo
+
+      - name: Fix CentOS7 Repo
+        run: |
+          sed -i \
+            's/mirror.centos.org/vault.centos.org/g' \
+            /etc/yum.repos.d/CentOS-Base.repo
+      
+          sed -i \
+            's/^#baseurl/baseurl/g' \
+            /etc/yum.repos.d/CentOS-Base.repo
+      
+          sed -i \
+            's/^mirrorlist/#mirrorlist/g' \
+            /etc/yum.repos.d/CentOS-Base.repo
+
+      - name: Add Docker Repo
+        run: |
+          yum-config-manager \
+            --add-repo \
+            https://download.docker.com/linux/centos/docker-ce.repo
+  
+      - name: Download Docker Packages
+        run: |
+          mkdir docker-offline
+
+          yum list docker-ce --showduplicates
+  
+          repotrack \
+            -p docker-offline \
+            docker-ce \
+            docker-ce-cli \
+            containerd.io
+            
+      - name: Create Repository Metadata
+        run: |
+          createrepo docker-offline
+
+      - name: Package
+        run: |
+          tar czf docker-offline.tar.gz docker-offline
+          # XZ_OPT='-T0 -6 -vv' tar -vvcJf docker-offline.tar.xz docker-offline
+  
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: docker-offline
+          path: docker-offline.tar.gz
+          
+
+
