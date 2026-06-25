@@ -32,3 +32,5 @@ RUN createrepo /offline
 FROM scratch
 
 COPY --from=builder /offline /
+
+CMD ["bash"]

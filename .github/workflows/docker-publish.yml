@@ -55,7 +55,7 @@ jobs:
 
       - name: Export
         run: |
-          id=$(docker create docker-offline)
+          id=$(docker create docker-offline bash)
       
           docker cp \
             $id:/ \
