@@ -41,29 +41,7 @@ for pkg in ${PACKAGES}; do \
 done; \
 \
 cat all_packages.txt | grep -v '\.so=' | sed 's/[><=].*$//' | sort -u > final_packages.txt; \
-\
-echo "===== all_packages PACKAGE LIST ====="; \
-cat all_packages.txt; \
-echo "===== final_packages PACKAGE LIST ====="; \
-cat final_packages.txt; \
-\
-pacman -Sw \
-    --noconfirm \
-    --cachedir ${REPO_DIR} \
-    $(cat final_packages.txt); \
-\
-repo-add \
-    offline.db.tar.gz \
-    *.pkg.tar.zst; \
-\
-tar czf \
-    arch-offline-repo.tar.gz \
-    *.pkg.tar.zst \
-    offline.db.tar.gz \
-    offline.files.tar.gz \
-    final_packages.txt; \
-\
-echo "Repository Build Finished"; \
+
 '
 
 RUN ls -lah /offline
