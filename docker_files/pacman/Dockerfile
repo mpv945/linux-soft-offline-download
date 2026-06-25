@@ -40,7 +40,7 @@ for pkg in ${PACKAGES}; do \
     pactree -s -u ${pkg} | sort -u >> all_packages.txt; \
 done; \
 \
-cat all_packages.txt | grep -v '\.so=' | sed 's/[><=].*$//' | sort -u > final_packages.txt; \
+cat all_packages.txt | grep -v "\.so=" | sed "s/[><=].*$//" | sort -u > final_packages.txt; \
 
 '
 
