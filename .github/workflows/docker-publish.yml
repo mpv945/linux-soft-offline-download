@@ -80,7 +80,7 @@ jobs:
             -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/yum/old
-          tar -xf offline.tar -C offline
+          ll -lah && mkdir -p offline && tar -xf offline.tar -C offline
 
       - name: Package
         run: |
