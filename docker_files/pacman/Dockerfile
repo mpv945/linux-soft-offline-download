@@ -2,12 +2,15 @@ FROM archlinux:latest
 
 ENV REPO_DIR=/offline
 
-RUN pacman -Syu --noconfirm && \
+RUN pacman -Sy --noconfirm && \
     pacman -S --noconfirm \
         pacman-contrib \
         base-devel \
         rsync \
         aria2
+
+#RUN echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch' \
+#      > /etc/pacman.d/mirrorlist
 
 RUN mkdir -p ${REPO_DIR}
 
