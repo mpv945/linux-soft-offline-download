@@ -82,11 +82,12 @@ jobs:
 # -f $PROJECT_DIR/docker_files/apt-get/debian/Dockerfile \  apt-get 方式（旧版本）
 # -f $PROJECT_DIR/docker_files/apt-get/debian-new/Dockerfile \  apt 方式（新版本）
 # -f $PROJECT_DIR/docker_files/pacman/Dockerfile \ Arch pacman 方式
+# -f $PROJECT_DIR/docker_files/pacman/pactree/Dockerfile \ Arch pacman+pactree方式 , 关联依赖很多导致包体积很大，优先 Arch pacman单包下载
       - name: Build
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
           DOCKER_BUILDKIT=1 docker buildx build \
-            -f $PROJECT_DIR/docker_files/pacman/Dockerfile \
+            -f $PROJECT_DIR/docker_files/pacman/pactree/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/dnf
           # tar -tf offline.tar
