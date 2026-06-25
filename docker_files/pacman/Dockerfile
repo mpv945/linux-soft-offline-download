@@ -47,10 +47,16 @@ cat all_packages.txt; \
 echo "===== final_packages PACKAGE LIST ====="; \
 cat final_packages.txt; \
 \
+cat final_packages.txt \
+| grep -v '\.so=' \
+| sed 's/[><=].*$//' \
+| sort -u \
+> download.list;
+\
 pacman -Sw \
     --noconfirm \
     --cachedir ${REPO_DIR} \
-    $(cat final_packages.txt); \
+    $(cat download.list); \
 \
 repo-add \
     offline.db.tar.gz \
