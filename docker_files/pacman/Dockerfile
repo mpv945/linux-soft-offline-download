@@ -20,7 +20,8 @@ RUN pacman -Sy --noconfirm \
 
 RUN mkdir -p ${REPO_DIR}
 
-RUN pacman -Ss docker && pacman -Q docker
+RUN pacman -Ss docker
+# RUN pacman -Q docker
 
 # docker-buildx \ 新版本才有 【docker-compose \ 不存在】
 RUN bash -c '\
