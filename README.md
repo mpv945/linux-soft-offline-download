@@ -250,4 +250,88 @@ Server = http://repo-server/docker-local
 
 
 
+Alpine Linux apk
+方案一：直接下载 Docker 全家桶（快速方案）
+外网：
+mkdir docker-offline
+
+apk fetch --recursive \
+    --output docker-offline \
+    docker
+拷贝：docker-offline/ 到内网。
+安装：
+apk add --allow-untrusted ./*.apk
+
+方案二：构建完整离线 APK 仓库（生产推荐）
+1. 查看目标 Alpine 版本和CPU
+cat /etc/alpine-release和uname -m
+2. 外网机器准备离线仓库目录
+mkdir -p /data/alpine-repo
+cd /data/alpine-repo
+配置与目标机器一致的仓库：
+cat > /etc/apk/repositories <<EOF
+https://dl-cdn.alpinelinux.org/alpine/v3.20/main
+https://dl-cdn.alpinelinux.org/alpine/v3.20/community
+EOF
+下载 Docker 及全部依赖
+apk fetch --recursive \
+    --output /data/alpine-repo \
+    docker
+查看下载结果：ls /data/alpine-repo
+4. 生成仓库索引
+apk add alpine-sdk
+生成索引：
+apk index \
+    -o APKINDEX.tar.gz \
+    *.apk
+目录变成：
+/data/alpine-repo
+
+APKINDEX.tar.gz
+docker-xxx.apk
+containerd-xxx.apk
+runc-xxx.apk
+...
+这已经是一个完整 APK 仓库。
+5. 拷贝到移动硬盘
+tar czf alpine-docker-repo.tar.gz /data/alpine-repo
+6. 内网机器部署
+mkdir -p /opt/alpine-repo
+
+tar xf alpine-docker-repo.tar.gz -C /opt
+目录：/opt/alpine-repo
+7. 配置本地仓库
+vi /etc/apk/repositories
+内容：
+/opt/alpine-repo或者：file:///opt/alpine-repo
+8. 更新索引
+apk update 应该显示：fetch /opt/alpine-repo/APKINDEX.tar.gz
+9. 安装 Docker：apk add docker
+10. 启动 Docker：Alpine 默认 OpenRC：
+rc-update add docker default
+service docker start
+查看：
+docker version
+docker info
+方案三：镜像整个 Alpine 仓库（企业级推荐）
+使用 rsync
+rsync -avz \
+ rsync://rsync.alpinelinux.org/alpine/v3.20 \
+ /data/alpine-mirror
+或者：
+wget --mirror \
+ --no-parent \
+ https://dl-cdn.alpinelinux.org/alpine/v3.20/
+目录：
+v3.20/
+├── main
+├── community
+内网直接挂载：
+http://repo.local/alpine/v3.20
+配置：
+http://repo.local/alpine/v3.20/main
+http://repo.local/alpine/v3.20/community
+
+
+
 ```
