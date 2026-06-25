@@ -9,65 +9,20 @@ ENV REPO_DIR=/offline
 RUN echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch' \
         > /etc/pacman.d/mirrorlist
 
-RUN pacman -Sy --noconfirm \
-        pacman-contrib \
-        base-devel \
-        rsync \
-        git \
-        curl \
-        wget \
-        aria2
+RUN pacman -Sy --noconfirm
 
 RUN mkdir -p ${REPO_DIR}
 # 能搜索到包，说明包就存在
-RUN pacman -Ss docker
+RUN pacman -Ss docker docker-compose
 # RUN pacman -Q docker
 
 # docker-buildx \ 新版本才有 【docker-compose \ 不存在】
-RUN bash -c '\
-set -eux; \
-\
-PACKAGES="\
-docker \
-"; \
-\
-cd ${REPO_DIR}; \
-\
-touch all_packages.txt; \
-\
-for pkg in ${PACKAGES}; do \
-    echo "Resolving dependencies for ${pkg}"; \
-    pactree -s -u ${pkg} | sort -u >> all_packages.txt; \
-done; \
-\
-cat all_packages.txt | \
-    grep -v "\.so=" | sed "s/[><=].*$//" | \
-    grep -Ev "^systemd|linux-" | \
-    sort -u > final_packages.txt; \
-\
-echo "===== all_packages PACKAGE LIST ====="; \
-cat all_packages.txt; \
-echo "===== final_packages PACKAGE LIST ====="; \
-cat final_packages.txt; \
-\
-pacman -Sw \
+RUN pacman -Sw \
     --noconfirm \
     --cachedir ${REPO_DIR} \
-    $(cat final_packages.txt); \
-\
-repo-add \
-    offline.db.tar.gz \
-    *.pkg.tar.zst; \
-\
-'
-# 最后通过Github Actions 进行打包，所以从最后代码移除
-#\
-#tar czf \
-#    arch-offline-repo.tar.gz \
-#    *.pkg.tar.zst \
-#    offline.db.tar.gz \
-#    offline.files.tar.gz \
-#    final_packages.txt; \
-#\
+    docker docker-compose
+
+RUN cd ${REPO_DIR} && \
+    repo-add offline.db.tar.gz *.pkg.tar.zst
 
 RUN ls -lah ${REPO_DIR}
