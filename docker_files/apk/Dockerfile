@@ -2,14 +2,23 @@ FROM alpine:3.22
 
 ENV REPO_DIR=/offline
 
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.22/main" > /etc/apk/repositories && \
+    echo "https://dl-cdn.alpinelinux.org/alpine/v3.22/community" >> /etc/apk/repositories
+
+# ⭐关键：必须更新索引
+RUN apk update
+
 RUN apk add --no-cache \
-    alpine-sdk \
     apk-tools \
+    alpine-sdk \
     tar
 
 #WORKDIR ${REPO_DIR}
 
 RUN mkdir -p ${REPO_DIR}
+
+# ⭐建议先显式确认 docker 可解析
+RUN apk search docker
 
 #
 # 下载 Docker 及所有依赖
