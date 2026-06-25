@@ -73,6 +73,7 @@ jobs:
 # 不生成镜像，直接构建后就输出文件， 最后.或者指定目录，表示Dockerfile 可以访问的目录
 # type=tar,dest=offline.tar  改用 tar 输出（最稳）
 # --output type=local,dest=./offline  【filesystem sync 文件同步，文件多github上会卡死】
+# tar -xf offline.tar offline/* --strip-components=1 -C offline 去掉第一层目录（最外层），解压指定目录
       - name: Build
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
@@ -80,7 +81,9 @@ jobs:
             -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/yum/old
-          tar -tf offline.tar && mkdir -p offline && tar -xf offline.tar offline/* --strip-components=1 -C offline
+          tar -tf offline.tar
+          mkdir -p offline
+          tar -xf offline.tar offline/* -C offline
 
       - name: Package
         run: |
