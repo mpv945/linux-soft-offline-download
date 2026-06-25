@@ -1,4 +1,5 @@
-FROM rockylinux:9-minimal AS builder
+# FROM rockylinux:9-minimal AS builder
+FROM rockylinux:9 AS builder
 
 RUN dnf install -y \
     dnf-plugins-core \
