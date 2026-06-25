@@ -80,11 +80,11 @@ jobs:
             -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/yum/old
-          ll -lah && mkdir -p offline && tar -xf offline.tar -C offline
+          ls -lah && mkdir -p offline && tar -xf offline.tar -C offline
 
       - name: Package
         run: |
-          ll -lah 
+          ls -lah 
           tar czf docker-offline.tar.gz offline
 
       - name: Upload Artifact
