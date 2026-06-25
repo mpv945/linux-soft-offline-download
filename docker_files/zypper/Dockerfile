@@ -16,7 +16,7 @@ WORKDIR /offline
 # RUN zypper install --download-only --download-dir /offline docker containerd
 
 # --download-dir 不设置时的默认目录 /var/cache/zypp/packages/
-RUN zypper install docker containerd --download-only --download-dir ./
+RUN zypper --non-interactive install -y docker containerd --download-only --download-dir ./
 
 # createrepo_c /data/docker-offline-rpms
 # 如果你后面追加 rpm，不要重建，用： createrepo_c --update .
