@@ -8,6 +8,7 @@ WORKDIR /offline
 
 # RUN zypper install --download-only --download-dir /offline docker containerd
 
+RUN zypper help install
 # --download-dir 不设置时的默认目录 /var/cache/zypp/packages/
 RUN zypper install --download-only -y docker containerd
 RUN cp -ar /var/cache/zypp/packages/* .

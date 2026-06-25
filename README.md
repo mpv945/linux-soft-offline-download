@@ -333,5 +333,31 @@ http://repo.local/alpine/v3.20/main
 http://repo.local/alpine/v3.20/community
 
 
+openSUSE zypper
+✔ 外网：
+zypper install --download-only docker containerd
+cp -ar /var/cache/zypp/packages/* rpms/
+生成 repo 元数据
+createrepo_c rpms
+生成结构：
+repodata/
+*.rpm
+打包移动硬盘
+tar -czf docker-offline-repo.tar.gz /data/docker-offline-rpms
+
+✔ 内网：
+挂载移动硬盘
+mount /dev/sdb1 /mnt
+cd /mnt/docker-offline-rpms
+添加本地仓库
+zypper ar "file:///mnt/docker-offline-rpms" local-docker
+zypper refresh
+安装 Docker
+zypper install docker
+
+搭建内网 HTTP 仓库（推荐）
+dnf install nginx: http://repo.local/docker/
+离线机器配置：
+zypper ar http://repo.local/docker local-docker
 
 ```
