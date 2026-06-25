@@ -162,4 +162,92 @@ echo "deb [trusted=yes] file:/mnt/usb/docker-offline/debs ./" \
 sudo apt-get update
 安装：
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+
+# pacman 系列
+方案一：直接复制 pacman 缓存
+外网机器：pacman -Sw docker
+缓存目录：/var/cache/pacman/pkg
+复制：
+docker*.pkg.tar.zst
+containerd*.pkg.tar.zst
+runc*.pkg.tar.zst
+...
+到内网机器：
+pacman -U *.pkg.tar.zst
+例如：
+pacman -U \
+containerd.pkg.tar.zst \
+runc.pkg.tar.zst \
+docker.pkg.tar.zst
+
+方案二：创建离线仓库
+Arch 官方提供：repo-add
+生成仓库索引：repo-add docker-local.db.tar.gz *.pkg.tar.zst
+生成：
+docker-local.db.tar.gz
+docker-local.files.tar.gz
+目录结构：
+docker-repo/
+├── docker-28.x.pkg.tar.zst
+├── containerd.pkg.tar.zst
+├── runc.pkg.tar.zst
+├── ...
+├── docker-local.db.tar.gz
+└── docker-local.files.tar.gz
+复制到移动硬盘
+rsync -av docker-repo /mnt/usb/
+内网 Arch Linux 配置本地仓库
+mkdir -p /opt/localrepo
+
+cp -r /mnt/usb/docker-repo/* \
+      /opt/localrepo/
+修改：vim /etc/pacman.conf
+添加：
+[docker-local]
+SigLevel = Optional TrustAll
+Server = file:///opt/localrepo
+刷新仓库：
+pacman -Sy
+查看：pacman -Sl docker-local
+安装 Docker： pacman -S docker
+
+方案三：建立企业级 Arch 镜像仓库（推荐大规模集群）
+如果内网有几十台以上机器，建议搭建：
+Nginx
+ + Arch Repo
+ + Docker Repo
+ + 自研软件 Repo
+目录：
+/repo
+ ├── core
+ ├── extra
+ ├── community
+ └── docker-local
+同步官方仓库：
+rsync \
+rsync://mirrors.kernel.org/archlinux \
+/repo/archlinux
+
+然后：
+server {
+    listen 80;
+
+    location /archlinux {
+        root /repo;
+        autoindex on;
+    }
+}
+客户端：
+[core]
+Server = http://repo-server/archlinux/core/os/x86_64
+
+[extra]
+Server = http://repo-server/archlinux/extra/os/x86_64
+
+[docker-local]
+Server = http://repo-server/docker-local
+
+
+
 ```
