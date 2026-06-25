@@ -84,7 +84,7 @@ jobs:
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
           DOCKER_BUILDKIT=1 docker buildx build \
-            -f $PROJECT_DIR/docker_files/yum/reposync/Dockerfile \
+            -f $PROJECT_DIR/docker_files/apt-get/debian/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/dnf
           tar -tf offline.tar
