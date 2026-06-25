@@ -334,6 +334,8 @@ http://repo.local/alpine/v3.20/community
 
 
 openSUSE zypper
+直接 rpm 安装： rpm -ivh *.rpm (❌ 不会自动处理依赖;❌ 容易缺包;❌ 顺序错就失败)
+
 ✔ 外网：
 zypper install --download-only docker containerd
 cp -ar /var/cache/zypp/packages/* rpms/
