@@ -23,5 +23,5 @@ RUN dnf download --resolve --alldeps \
       containerd.io \
       docker-buildx-plugin \
       docker-compose-plugin
-
+# 如果你后面追加 rpm，不要重建，用： createrepo_c --update .
 RUN createrepo_c --update /offline && ls -lah /offline

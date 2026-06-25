@@ -26,5 +26,5 @@ RUN repotrack \
       docker-ce \
       docker-ce-cli \
       containerd.io
-
+# 如果你后面追加 rpm，不要重建，用： createrepo --update .
 RUN createrepo /offline && ls -lah /offline
