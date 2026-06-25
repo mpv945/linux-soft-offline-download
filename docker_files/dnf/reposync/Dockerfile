@@ -15,13 +15,11 @@ RUN dnf config-manager \
 
 RUN dnf repolist && mkdir -p /offline && dnf list docker-ce --showduplicates
 
-# -n 只下载最新版本 全称 --newest-only
-# -l 跟随依赖
+# 只下载最新版本 --newest-only
 RUN dnf reposync \
     --repo=docker-ce-stable \
     --download-metadata \
-    -n \
-    -l \
+    --newest-only \
     -p /offline
 
 RUN ls -lah /offline

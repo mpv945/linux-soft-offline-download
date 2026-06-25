@@ -21,7 +21,7 @@ RUN yum-config-manager \
 
 RUN yum repolist && mkdir -p /offline && yum list docker-ce --showduplicates
 
-# -n 只下载最新版本 全称 --newest-only
+# -n 只下载最新版本
 # -l 跟随依赖
 RUN reposync \
     -r docker-ce-stable \

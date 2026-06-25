@@ -78,11 +78,12 @@ jobs:
 # -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \ centos 7
 # -f $PROJECT_DIR/docker_files/dnf/Dockerfile \ dnf新方式
 # -f $PROJECT_DIR/docker_files/dnf/reposync/Dockerfile \  dnf reposync 方式
+# -f $PROJECT_DIR/docker_files/yum/reposync/Dockerfile \  yum reposync 方式
       - name: Build
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
           DOCKER_BUILDKIT=1 docker buildx build \
-            -f $PROJECT_DIR/docker_files/dnf/reposync/Dockerfile \
+            -f $PROJECT_DIR/docker_files/yum/reposync/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/dnf
           tar -tf offline.tar
