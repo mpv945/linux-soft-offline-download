@@ -2,28 +2,31 @@ FROM archlinux:latest
 
 ENV REPO_DIR=/offline
 
-RUN pacman -Sy --noconfirm && \
-    pacman -S --noconfirm \
+#RUN echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch' \
+#      > /etc/pacman.d/mirrorlist
+#RUN echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch' \
+#      > /etc/pacman.d/mirrorlist
+RUN echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch' \
+        > /etc/pacman.d/mirrorlist
+
+RUN pacman -Sy --noconfirm \
         pacman-contrib \
         base-devel \
         rsync \
+        git \
+        curl \
+        wget \
         aria2
-
-#RUN echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch' \
-#      > /etc/pacman.d/mirrorlist
 
 RUN mkdir -p ${REPO_DIR}
 
+# docker-buildx \ 新版本才有
 RUN bash -c '\
 set -eux; \
 \
 PACKAGES="\
 docker \
 docker-compose \
-git \
-curl \
-wget \
-vim \
 "; \
 \
 cd ${REPO_DIR}; \
