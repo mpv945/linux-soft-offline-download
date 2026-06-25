@@ -71,13 +71,16 @@ jobs:
 #      offline-builder \
 #      cp -r /offline /out
 # 不生成镜像，直接构建后就输出文件， 最后.或者指定目录，表示Dockerfile 可以访问的目录
+# type=tar,dest=offline.tar  改用 tar 输出（最稳）
+# --output type=local,dest=./offline  【filesystem sync 文件同步，文件多github上会卡死】
       - name: Build
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
-          docker buildx build \
+          DOCKER_BUILDKIT=1 docker buildx build \
             -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
-            --output type=local,dest=./offline \
+            --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/yum/old
+          tar -xf offline.tar -C offline
 
       - name: Package
         run: |
