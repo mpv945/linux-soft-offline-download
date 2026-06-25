@@ -89,7 +89,7 @@ jobs:
             -f $PROJECT_DIR/docker_files/pacman/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/dnf
-          tar -tf offline.tar
+          # tar -tf offline.tar
           mkdir -p offline
           tar -xf offline.tar -C offline --strip-components=1 offline
 

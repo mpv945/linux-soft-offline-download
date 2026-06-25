@@ -20,7 +20,7 @@ RUN pacman -Sy --noconfirm \
 
 RUN mkdir -p ${REPO_DIR}
 
-RUN pacman -Ss docker
+RUN pacman -Ss docker && pacman -Q docker
 
 # docker-buildx \ 新版本才有 【docker-compose \ 不存在】
 RUN bash -c '\
@@ -36,7 +36,7 @@ touch all_packages.txt; \
 \
 for pkg in ${PACKAGES}; do \
     echo "Resolving dependencies for ${pkg}"; \
-    pactree -u ${pkg} | sort -u >> all_packages.txt; \
+    pactree -s -u ${pkg} | sort -u >> all_packages.txt; \
 done; \
 \
 sort -u all_packages.txt > final_packages.txt; \
