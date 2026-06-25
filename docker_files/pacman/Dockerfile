@@ -41,6 +41,11 @@ for pkg in ${PACKAGES}; do \
 done; \
 \
 cat all_packages.txt | grep -v "\.so=" | sed "s/[><=].*$//" | sort -u > final_packages.txt; \
+\
+echo "===== all_packages PACKAGE LIST ====="; \
+cat all_packages.txt; \
+echo "===== final_packages PACKAGE LIST ====="; \
+cat final_packages.txt; \
 
 '
 
