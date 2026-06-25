@@ -18,7 +18,6 @@ FROM opensuse/leap:15.6
 RUN zypper clean -a && zypper refresh
 
 RUN zypper install -y \
-    zypper-download \
     createrepo_c
 
 WORKDIR /offline
