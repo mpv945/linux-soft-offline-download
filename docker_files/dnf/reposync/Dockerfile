@@ -18,6 +18,7 @@ RUN dnf repolist && mkdir -p /offline && dnf list docker-ce --showduplicates
 RUN dnf reposync \
     --repo=docker-ce-stable \
     --download-metadata \
-    --download-path=/offline
+    --newest-only \
+    -p /offline
 
 RUN ls -lah /offline
