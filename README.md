@@ -71,6 +71,25 @@ baseurl=file:///mnt/repo/docker-ce-stable
 dnf install ./pkgs/*.rpm
 
 # dnf reposync
+
+# 默认dnf reposync是同步全部版本，量很大，可以使用下面方法指定版本，或者添加 --newest-only 只同步最新的
+只替换 baseurl 行（企业标准）
+sed -i \
+'s|^baseurl=.*|baseurl=https://download.docker.com/linux/centos/9/x86_64/stable-24/|g' \
+/etc/yum.repos.d/docker-ce.repo
+
+# 生成 repo 文件
+VERSION=stable-24
+
+cat > docker.repo <<EOF
+[docker-ce-stable]
+baseurl=https://download.docker.com/linux/centos/9/x86_64/${VERSION}/
+enabled=1
+gpgcheck=0
+EOF
+
+dnf reposync --repo=docker-ce-stable --download-metadata
+
 输出结果结构
 生成：docker-offline-repo.tar.gz
 解压后：
