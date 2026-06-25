@@ -40,23 +40,17 @@ for pkg in ${PACKAGES}; do \
     pactree -s -u ${pkg} | sort -u >> all_packages.txt; \
 done; \
 \
-sort -u all_packages.txt > final_packages.txt; \
+cat all_packages.txt | grep -v '\.so=' | sed 's/[><=].*$//' | sort -u > final_packages.txt; \
 \
 echo "===== all_packages PACKAGE LIST ====="; \
 cat all_packages.txt; \
 echo "===== final_packages PACKAGE LIST ====="; \
 cat final_packages.txt; \
 \
-cat final_packages.txt \
-| grep -v '\.so=' \
-| sed 's/[><=].*$//' \
-| sort -u \
-> download.list; \
-\
 pacman -Sw \
     --noconfirm \
     --cachedir ${REPO_DIR} \
-    $(cat download.list); \
+    $(cat final_packages.txt); \
 \
 repo-add \
     offline.db.tar.gz \
