@@ -42,7 +42,7 @@ done; \
 \
 cat all_packages.txt | \
     grep -v "\.so=" | sed "s/[><=].*$//" | \
-    grep -Ev "^systemd|linux-" \
+    grep -Ev "^systemd|linux-" | \
     sort -u > final_packages.txt; \
 \
 echo "===== all_packages PACKAGE LIST ====="; \
