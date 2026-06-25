@@ -1,6 +1,6 @@
 FROM opensuse/leap:15.6
 
-#RUN zypper ar https://download.opensuse.org/repositories/Virtualization:/containers/openSUSE_Leap_15.6/ containers
+RUN zypper ar https://download.opensuse.org/repositories/Virtualization:/containers/openSUSE_Leap_15.6/ containers
 
 RUN set -eux; \
     zypper --non-interactive refresh || true; \
