@@ -84,7 +84,7 @@ jobs:
 
       - name: Package
         run: |
-          ls -lah 
+          ls -lah offline/
           tar czf docker-offline.tar.gz offline
 
       - name: Upload Artifact
