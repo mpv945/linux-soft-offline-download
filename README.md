@@ -124,4 +124,42 @@ EOF
 dnf install docker-ce docker-ce-cli containerd.io
 
 
+
+apt-get
+
+在线机执行：确认依赖是否下载完整？
+apt-cache depends docker-ce
+
+方法一：dpkg（不推荐）
+apt install -y ./*.deb
+
+dpkg -i *.deb
+可能报：dependency problems prevent configuration 因为 dpkg 不会自动解决安装顺序。
+dpkg -i \
+    ./containerd.io*.deb \
+    ./docker-ce-cli*.deb \
+    ./docker-ce*.deb \
+    ./docker-buildx-plugin*.deb \
+    ./docker-compose-plugin*.deb
+dpkg -i *.deb 出现：dependency problems  然后执行：apt --fix-broken install
+
+方法二：APT 本地仓库（推荐）
+生成索引：
+cd /opt/docker-offline/debs
+dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
+目录结构：
+docker-offline/
+ ├── debs/
+ │    ├── xxx.deb
+ │    ├── xxx.deb
+ │    └── Packages.gz
+内网机器：配置本地源
+假设挂载到：/mnt/usb/docker-offline
+添加源：
+echo "deb [trusted=yes] file:/mnt/usb/docker-offline/debs ./" \
+| sudo tee /etc/apt/sources.list.d/docker-local.list
+更新：
+sudo apt-get update
+安装：
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 ```
