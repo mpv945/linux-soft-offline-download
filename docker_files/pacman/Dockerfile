@@ -20,13 +20,12 @@ RUN pacman -Sy --noconfirm \
 
 RUN mkdir -p ${REPO_DIR}
 
-# docker-buildx \ 新版本才有
+# docker-buildx \ 新版本才有 【docker-compose \ 不存在】
 RUN bash -c '\
 set -eux; \
 \
 PACKAGES="\
 docker \
-docker-compose \
 "; \
 \
 cd ${REPO_DIR}; \
