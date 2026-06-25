@@ -40,7 +40,10 @@ for pkg in ${PACKAGES}; do \
     pactree -s -u ${pkg} | sort -u >> all_packages.txt; \
 done; \
 \
-cat all_packages.txt | grep -v "\.so=" | sed "s/[><=].*$//" | sort -u > final_packages.txt; \
+cat all_packages.txt | \
+    grep -v "\.so=" | sed "s/[><=].*$//" | \
+    grep -Ev "^systemd|linux-" \
+    sort -u > final_packages.txt; \
 \
 echo "===== all_packages PACKAGE LIST ====="; \
 cat all_packages.txt; \
