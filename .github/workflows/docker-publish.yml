@@ -73,12 +73,14 @@ jobs:
 # 不生成镜像，直接构建后就输出文件， 最后.或者指定目录，表示Dockerfile 可以访问的目录
 # type=tar,dest=offline.tar  改用 tar 输出（最稳）
 # --output type=local,dest=./offline  【filesystem sync 文件同步，文件多github上会卡死】
-# tar -xf offline.tar offline/* --strip-components=1 -C offline 去掉第一层目录（最外层），解压指定目录
+# tar -xf offline.tar -C offline --strip-components=1 offline --strip-components=1 会去掉路径里最外层的一级目录（即去掉 opt/ 这一层），结果就是 src/ 下直接是 opt 里原来的文件。
+
+# -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \ centos 7
       - name: Build
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
           DOCKER_BUILDKIT=1 docker buildx build \
-            -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
+            -f $PROJECT_DIR/docker_files/dnf/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/yum/old
           tar -tf offline.tar
