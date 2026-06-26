@@ -1,6 +1,122 @@
 # 使用
 ```bash
 
+Docker 默认数据目录： /var/lib/docker
+Docker 官方支持："data-root": "/data/docker"
+{
+    "data-root": "/data/docker"
+}
+日志驱动（官方推荐）
+Docker 默认：json-file  但是官方现在更推荐：local
+"log-driver": "local"
+日志大小限制（必须）官方推荐：
+# 20MB × 5 =100MB/容器
+"log-opts": {
+    "max-size":"20m",
+    "max-file":"5"
+}
+如果使用 json-file：
+"log-driver":"json-file",
+"log-opts":{
+    "max-size":"20m",
+    "max-file":"5"
+}
+Storage Driver
+现在 Linux 官方基本就是：overlay2
+查看：docker info 输出：Storage Driver: overlay2
+Live Restore 推荐开启。"live-restore": true 作用： 重启 Docker Daemon：systemctl restart docker 容器不会停止。生产环境非常推荐。
+默认网络池：很多公司：VPN，K8S，Docker 经常冲突。例如：默认172.17.x.x
+可以修改：
+"default-address-pools":[
+{
+"base":"10.100.0.0/16",
+"size":24
+}
+]
+以后：docker network 不会再使用172.*
+DNS 建议：
+"dns":[
+"223.5.5.5",
+"119.29.29.29"
+]
+或者公司DNS：10.x.x.x
+Registry Mirrors（国内）如果在国内：
+"registry-mirrors":[
+"https://xxxx.mirror.aliyuncs.com"
+]
+并发下载
+"max-concurrent-downloads":10,
+"max-concurrent-uploads":5
+开启 IPv6（按需）
+{
+  "ipv6": true,
+  "fixed-cidr-v6": "2001:db8:1::/64"
+}
+containerd Docker 29 以后，新安装默认使用：containerd image store
+因此：Docker Data： /var/lib/docker 和 /var/lib/containerd 会同时存在。
+如果需要迁移数据盘：containerd 也要修改： /etc/containerd/config.toml
+例如：root="/data/containerd" 官方特别说明，data-root 不会影响 containerd 的 image store。
+systemd优化 /etc/systemd/system/docker.service.d/override.conf
+例如：
+LimitNOFILE=1048576
+LimitNPROC=1048576
+TasksMax=infinity
+最后systemctl daemon-reload && systemctl restart docker
+
+建议的 daemon.json（生产推荐）
+{
+  "data-root": "/data/docker",
+
+  "log-driver": "local",
+
+  "log-opts": {
+    "max-size": "20m",
+    "max-file": "5",
+    "compress": "true"
+  },
+
+  "live-restore": true,
+
+  "dns": [
+    "223.5.5.5",
+    "119.29.29.29"
+  ],
+
+  "default-address-pools": [
+    {
+      "base": "10.100.0.0/16",
+      "size": 24
+    }
+  ],
+
+  "max-concurrent-downloads": 10,
+  "max-concurrent-uploads": 5,
+
+  "storage-driver": "overlay2"
+}
+
+Docker 29 以后： docker info 看到：Image Store:containerd 或者：containerd image store 说明：镜像已经全部进入：/var/lib/containerd 这时候：docker system df 看到：Images 300GB 实际上在containerd 而不是 docker
+containerd 的 root 与 state 【containerd 也要修改： /etc/containerd/config.toml】
+如果不存在，可生成配置文件
+先创建目录：
+sudo mkdir -p /etc/containerd
+然后生成默认配置：
+sudo containerd config default | sudo tee /etc/containerd/config.toml >/dev/null
+
+修改内容
+version = 2
+root = "/data/containerd"
+state = "/run/containerd"
+temp = ""
+
+修改完成后执行：
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+如果有containerd
+sudo systemctl restart containerd
+sudo systemctl restart docker
+
+
 # 加载docker镜像
 #  -o duckdb-python.tar # 加载：docker load -i nginx.tar
 #run: docker save duckdb-python:latest | gzip > duckdb-python.tar.gz 加载 gunzip -c nginx.tar.gz | docker load 或者 zcat nginx.tar.gz | docker load
