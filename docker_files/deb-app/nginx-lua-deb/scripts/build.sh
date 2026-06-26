@@ -4,7 +4,8 @@ set -e
 cd /build/src/nginx-1.24.0
 
 echo "Creating debian structure..."
-cp -r /build/* .
+cp -r /build/debian .
+cp -r /build/nginx .
 ls -alh .
 
 
