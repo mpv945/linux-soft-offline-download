@@ -1,4 +1,5 @@
-FROM centos:7.6 AS builder
+# FROM centos:7 AS builder
+FROM centos:centos7.6 AS builder
 
 RUN sed -i \
     's/mirror.centos.org/vault.centos.org/g' \
