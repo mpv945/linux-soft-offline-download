@@ -90,7 +90,7 @@ jobs:
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
           DOCKER_BUILDKIT=1 docker buildx build \
-            -f $PROJECT_DIR/docker_files/yum/yumdownloader/Dockerfile \
+            -f $PROJECT_DIR/docker_files/yum/reposync/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/dnf
           # tar -tf offline.tar
@@ -104,11 +104,13 @@ jobs:
           rm -rf offline.tar
           rm -rf offline
 
+      # compression-level: 0 表示不压缩，0~9，默认6
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
           name: docker-offline
           path: docker-offline.tar.gz
+          compression-level: 0
           
 
 
