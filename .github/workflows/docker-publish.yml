@@ -76,7 +76,7 @@ jobs:
 # tar -xf offline.tar -C offline --strip-components=1 offline --strip-components=1 会去掉路径里最外层的一级目录（即去掉 opt/ 这一层），结果就是 src/ 下直接是 opt 里原来的文件。
 
 # -f $PROJECT_DIR/docker_files/yum/yumdownloader/Dockerfile \ centos yum最原始下载方法
-# -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \ centos 7
+# -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \ centos 7 repotrack 方式，比较全面的依赖
 # -f $PROJECT_DIR/docker_files/dnf/Dockerfile \ dnf新方式
 # -f $PROJECT_DIR/docker_files/dnf/reposync/Dockerfile \  dnf reposync 方式
 # -f $PROJECT_DIR/docker_files/yum/reposync/Dockerfile \  yum reposync 方式
@@ -90,7 +90,7 @@ jobs:
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
           DOCKER_BUILDKIT=1 docker buildx build \
-            -f $PROJECT_DIR/docker_files/yum/reposync/Dockerfile \
+            -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR/docker_files/dnf
           # tar -tf offline.tar
