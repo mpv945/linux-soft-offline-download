@@ -46,6 +46,6 @@ dpkg-buildpackage -us -uc -b
 
 mkdir -p /offline && ls -alh .
 
-cp nginx-lua_*.deb /offline/
+cp ../nginx-lua_*.deb /offline/
 
 ls -alh /offline/
