@@ -28,6 +28,8 @@ cp -r /build/nginx-lua-deb/nginx/debian .
 
 dos2unix debian/control
 
+dos2unix debian/*
+
 echo "checking control file... cat -A 出现 $   ⚠ CRLF"
 nl -ba ./debian/control
 cat -A debian/control

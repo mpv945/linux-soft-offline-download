@@ -1,0 +1,6 @@
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.rules text eol=lf
+*.control text eol=lf
+*.changelog text eol=lf
