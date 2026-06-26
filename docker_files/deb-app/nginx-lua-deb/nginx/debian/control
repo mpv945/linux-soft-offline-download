@@ -14,4 +14,4 @@ Package: nginx-lua
 Architecture: amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Nginx with Lua support
- Custom nginx build with lua-nginx-module
+ Custom nginx build with lua-nginx-module and systemd support
