@@ -8,6 +8,9 @@ cp -r /build/debian .
 cp -r /build/nginx .
 ls -alh .
 
+sed -i -e '$a\' nginx/conf/nginx.conf
+sed -i -e '$a\' nginx/lua/hello.lua
+
 # Build-Depends: debhelper-compat (=13), libpcre3-dev, zlib1g-dev, libssl-dev, lua5.3, liblua5.3-dev
 # Build-Depends: debhelper-compat (=13), libpcre3-dev, zlib1g-dev, libssl-dev, lua5.1, liblua5.1-0-dev
 cat > debian/control <<'EOF'
