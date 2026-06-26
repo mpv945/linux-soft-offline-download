@@ -39,8 +39,8 @@ RUN apt-get update && apt-get install -y \
 
 RUN ls -alh /build/
 
-RUN bash /build/nginx-lua-deb/scripts/build-deb.sh
+RUN /build/nginx-lua-deb/scripts/build-deb.sh
 RUN ls -alh /build/src
 
-RUN bash /build/nginx-lua-deb/nginx/build.sh
+RUN /build/nginx-lua-deb/nginx/build.sh
 
