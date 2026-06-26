@@ -19,7 +19,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /build
 
-COPY  $HOST_WORKDIR/docker_files/deb-app/ /build/
+COPY docker_files/deb-app/ /build/
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -35,4 +35,6 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libluajit-5.1-dev \
     ca-certificates
+
+RUN ls -alh /build/
 
