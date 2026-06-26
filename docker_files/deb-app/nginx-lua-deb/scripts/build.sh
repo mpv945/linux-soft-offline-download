@@ -4,7 +4,8 @@ set -e
 cd /build/src/nginx-1.24.0
 
 echo "Creating debian structure..."
-cp -r /build/nginx-lua-deb/nginx/debian .
+cp -r /build/* .
+ls -alh .
 
 
 #cat > ./debian/control <<EOF
@@ -27,7 +28,6 @@ cp -r /build/nginx-lua-deb/nginx/debian .
 #EOF
 
 dos2unix debian/control
-
 dos2unix debian/*
 
 echo "checking control file... cat -A 出现 $   ⚠ CRLF"

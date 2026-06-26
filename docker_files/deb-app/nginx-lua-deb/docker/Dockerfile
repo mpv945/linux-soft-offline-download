@@ -19,7 +19,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /build
 
-COPY docker_files/deb-app/ /build/
+COPY docker_files/deb-app/nginx-lua-deb/ /build/
+
+RUN chmod +x debian/rules
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -39,8 +41,8 @@ RUN apt-get update && apt-get install -y \
 
 RUN ls -alh /build/
 
-RUN bash /build/nginx-lua-deb/scripts/build-deb.sh
+RUN bash /build/scripts/build-deb.sh
 RUN ls -alh /build/src
 
-RUN bash /build/nginx-lua-deb/nginx/build.sh
+RUN bash /build/scripts/build.sh
 
