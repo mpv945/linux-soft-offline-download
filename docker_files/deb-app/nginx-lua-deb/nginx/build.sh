@@ -25,6 +25,12 @@ Description: Nginx with Lua support
  Custom nginx build
 EOF
 
+echo "checking control file..."
+nl -ba ./debian/control
+cat -A debian/control
+echo "validating..."
+dpkg-source -b . || true
+
 echo "Building deb package..."
 dpkg-buildpackage -us -uc -b
 
