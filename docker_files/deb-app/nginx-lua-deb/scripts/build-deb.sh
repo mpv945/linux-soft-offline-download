@@ -16,8 +16,8 @@ echo "Cloning lua module..."
 git clone https://github.com/openresty/lua-nginx-module.git
 
 mkdir -p orig/${PKG}-${NGINX_VERSION}
-mv nginx-${NGINX_VERSION} orig/${PKG}-${NGINX_VERSION}/nginx
-mv lua-nginx-module orig/${PKG}-${NGINX_VERSION}/lua-nginx-module
+cp -r nginx-${NGINX_VERSION} orig/${PKG}-${NGINX_VERSION}/nginx
+cp -r lua-nginx-module orig/${PKG}-${NGINX_VERSION}/lua-nginx-module
 # 打包 orig
 cd orig/
 tar -czf ${PKG}_${NGINX_VERSION}.orig.tar.gz ${PKG}-${NGINX_VERSION}
