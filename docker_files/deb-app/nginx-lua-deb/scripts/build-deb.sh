@@ -15,12 +15,13 @@ tar -xzf nginx-${NGINX_VERSION}.tar.gz
 echo "Cloning lua module..."
 git clone https://github.com/openresty/lua-nginx-module.git
 
-cd nginx-${NGINX_VERSION}
-
 mkdir -p orig/${PKG}-${VERSION}
-mv nginx-${VERSION} orig/${PKG}-${VERSION}/nginx
+mv nginx-${NGINX_VERSION} orig/${PKG}-${VERSION}/nginx
 mv lua-nginx-module orig/${PKG}-${VERSION}/lua-nginx-module
 # 打包 orig
 cd orig/
 tar -czf ${PKG}_${VERSION}.orig.tar.gz ${PKG}-${VERSION}
 cp ${PKG}_${VERSION}.orig.tar.gz /build/src/nginx-1.24.0/
+cd ..
+
+cd nginx-${NGINX_VERSION}
