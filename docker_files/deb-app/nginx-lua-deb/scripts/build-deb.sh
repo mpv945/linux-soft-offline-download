@@ -24,7 +24,14 @@ tar -czf ${PKG}_${NGINX_VERSION}.orig.tar.gz ${PKG}-${NGINX_VERSION}
 ls -alh
 pwd
 ls -alh /build/src
-cp ${PKG}_${NGINX_VERSION}.orig.tar.gz /build/src/nginx-${NGINX_VERSION}/
+# 必须在 debian 目录的“上一级”
+#build/
+#├── nginx-lua_1.24.0.orig.tar.gz   ✅ 必须
+#├── nginx-lua-1.24.0/
+#│   ├── debian/
+#│   ├── nginx source
+#│   ├── lua module
+cp ${PKG}_${NGINX_VERSION}.orig.tar.gz /build/src/
 cd ..
 
 cd nginx-${NGINX_VERSION}
