@@ -13,7 +13,7 @@ Source: nginx-lua
 Section: web
 Priority: optional
 Maintainer: Your Name <you@example.com>
-Build-Depends: debhelper-compat (=13), libpcre3-dev, zlib1g-dev, libssl-dev, lua5.1, liblua5.1-0-dev
+Build-Depends: debhelper-compat (=13), libpcre3-dev, zlib1g-dev, libssl-dev, lua5.3 liblua5.3-dev
 Standards-Version: 4.6.2
 
 Package: nginx-lua
