@@ -14,22 +14,3 @@ echo "Cloning lua module..."
 git clone https://github.com/openresty/lua-nginx-module.git
 
 cd nginx-${NGINX_VERSION}
-
-cat > /build/nginx-lua-deb/nginx/build.sh <<EOF
-Source: nginx-lua
-Section: web
-Priority: optional
-Maintainer: you <you@example.com>
-
-Build-Depends: debhelper-compat (= 13),
-               libpcre3-dev,
-               zlib1g-dev,
-               libssl-dev,
-               libluajit-5.1-dev
-
-Package: nginx-lua
-Architecture: amd64
-Depends: \${shlibs:Depends}, \${misc:Depends}
-Description: Nginx with Lua support
- Custom nginx build
-EOF
