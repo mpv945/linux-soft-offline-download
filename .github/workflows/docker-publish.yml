@@ -86,11 +86,14 @@ jobs:
 # -f $PROJECT_DIR/docker_files/pacman/pactree/Dockerfile \ Arch pacman+pactree方式 , 关联依赖很多导致包体积很大，优先 Arch pacman单包下载
 # -f $PROJECT_DIR/docker_files/apk/Dockerfile \ Alpine Linux apk 离线下载
 # -f $PROJECT_DIR/docker_files/zypper/Dockerfile \  openSUSE zypper 离线下载
+
+# 编译安装包
+# -f $PROJECT_DIR/docker_files/deb-app/nginx-lua-deb/docker/Dockerfile \   debian 的 nginx deb包制作
       - name: Build
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
           DOCKER_BUILDKIT=1 docker buildx build --build-arg HOST_WORK_DIR=$PROJECT_DIR \
-            -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
+            -f $PROJECT_DIR/docker_files/deb-app/nginx-lua-deb/docker/Dockerfile \
             --output type=tar,dest=offline.tar \
             $PROJECT_DIR
           # tar -tf offline.tar
