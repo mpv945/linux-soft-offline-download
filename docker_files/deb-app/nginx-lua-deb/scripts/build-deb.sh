@@ -22,6 +22,8 @@ mv lua-nginx-module orig/${PKG}-${NGINX_VERSION}/lua-nginx-module
 cd orig/
 tar -czf ${PKG}_${NGINX_VERSION}.orig.tar.gz ${PKG}-${NGINX_VERSION}
 ls -alh
+pwd
+ls -alh /build/src
 cp ${PKG}_${NGINX_VERSION}.orig.tar.gz /build/src/nginx-${NGINX_VERSION}/
 cd ..
 
