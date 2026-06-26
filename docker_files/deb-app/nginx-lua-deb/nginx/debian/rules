@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	./configure \
+		--prefix=/etc/nginx \
+		--sbin-path=/usr/sbin/nginx \
+		--conf-path=/etc/nginx/nginx.conf \
+		--pid-path=/run/nginx.pid \
+		--lock-path=/run/lock/nginx.lock \
+		--error-log-path=/var/log/nginx/error.log \
+		--http-log-path=/var/log/nginx/access.log \
+		--with-http_ssl_module \
+		--with-http_v2_module \
+		--add-module=../lua-nginx-module
+
+override_dh_auto_build:
+	make -j$(nproc)
+
+override_dh_auto_install:
+	make install DESTDIR=$(CURDIR)/debian/nginx-lua

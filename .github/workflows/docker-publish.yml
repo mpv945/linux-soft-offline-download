@@ -89,10 +89,10 @@ jobs:
       - name: Build
         run: |
           export PROJECT_DIR=$GITHUB_WORKSPACE
-          DOCKER_BUILDKIT=1 docker buildx build \
+          DOCKER_BUILDKIT=1 docker buildx build --build-arg HOST_WORK_DIR=$PROJECT_DIR \
             -f $PROJECT_DIR/docker_files/yum/old/Dockerfile \
             --output type=tar,dest=offline.tar \
-            $PROJECT_DIR/docker_files/dnf
+            $PROJECT_DIR
           # tar -tf offline.tar
           mkdir -p offline
           tar -xf offline.tar -C offline --strip-components=1 offline

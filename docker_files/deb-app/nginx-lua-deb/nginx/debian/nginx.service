@@ -1,0 +1,13 @@
+[Unit]
+Description=Nginx with Lua
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/sbin/nginx
+ExecReload=/usr/sbin/nginx -s reload
+ExecStop=/usr/sbin/nginx -s quit
+PIDFile=/run/nginx.pid
+
+[Install]
+WantedBy=multi-user.target

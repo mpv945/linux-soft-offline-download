@@ -1,0 +1,9 @@
+# 使用 .dockerignore 排除docker build不需要复制的文件：
+
+.idea
+.github
+.git
+README.md
+LICENSE
+Dockerfile
+.dockerignore

@@ -1,0 +1,5 @@
+nginx-lua (1.24.0-1) unstable; urgency=medium
+
+  * Custom build with lua-nginx-module
+
+ -- you <you@example.com>  Fri, 26 Jun 2026 00:00:00 +0000

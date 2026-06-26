@@ -1,6 +1,8 @@
 # 使用
 ```bash
 
+Dockerfile语法参考： https://yeasy.gitbook.io/docker_practice/di-er-bu-fen-jin-jie-pian/07_dockerfile/7.3_add
+
 Docker 默认数据目录： /var/lib/docker
 Docker 官方支持："data-root": "/data/docker"
 {
