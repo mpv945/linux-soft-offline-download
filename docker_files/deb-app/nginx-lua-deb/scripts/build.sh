@@ -8,7 +8,6 @@ cp -r /build/debian .
 cp -r /build/nginx .
 ls -alh .
 
-
 cat > debian/control <<'EOF'
 Source: nginx-lua
 Section: web
@@ -25,7 +24,7 @@ Description: Nginx with Lua module
 EOF
 
 # debian/source/format = 3.0 (quilt) 必须有“上游源码 tarball”  ✔ native 模式特点：不需要 .orig.tar.*
-echo "3.0 (native)" > debian/source/format
+# echo "3.0 (native)" > debian/source/format
 
 dos2unix debian/control
 dos2unix debian/*

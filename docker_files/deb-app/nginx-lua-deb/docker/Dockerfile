@@ -35,7 +35,7 @@ RUN apt-get update && apt-get install -y \
     libpcre3-dev \
     zlib1g-dev \
     libssl-dev \
-    libluajit-5.1-dev \
+    lua5.3 liblua5.3-dev \
     dos2unix \
     ca-certificates
 
