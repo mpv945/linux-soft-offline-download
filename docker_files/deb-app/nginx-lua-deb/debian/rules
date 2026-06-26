@@ -14,7 +14,6 @@ override_dh_auto_configure:
 		--http-log-path=/var/log/nginx/access.log \
 		--with-http_ssl_module \
 		--with-http_v2_module \
-        --with-luajit-inc=/usr/include/luajit-2.1 \
 		--add-module=../lua-nginx-module
 
 override_dh_auto_build:
