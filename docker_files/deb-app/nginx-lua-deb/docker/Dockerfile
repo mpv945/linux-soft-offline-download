@@ -34,6 +34,7 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libssl-dev \
     libluajit-5.1-dev \
+    dos2unix \
     ca-certificates
 
 RUN ls -alh /build/

@@ -6,26 +6,29 @@ cd /build/src/nginx-1.24.0
 echo "Creating debian structure..."
 cp -r /build/nginx-lua-deb/nginx/debian .
 
-cat > ./debian/control <<EOF
-Source: nginx-lua
-Section: web
-Priority: optional
-Maintainer: you <you@example.com>
 
-Build-Depends: debhelper-compat (= 13),
-               libpcre3-dev,
-               zlib1g-dev,
-               libssl-dev,
-               libluajit-5.1-dev
+#cat > ./debian/control <<EOF
+#Source: nginx-lua
+#Section: web
+#Priority: optional
+#Maintainer: you <you@example.com>
+#
+#Build-Depends: debhelper-compat (= 13),
+#               libpcre3-dev,
+#               zlib1g-dev,
+#               libssl-dev,
+#               libluajit-5.1-dev
+#
+#Package: nginx-lua
+#Architecture: amd64
+#Depends: \${shlibs:Depends}, \${misc:Depends}
+#Description: Nginx with Lua support
+# Custom nginx build
+#EOF
 
-Package: nginx-lua
-Architecture: amd64
-Depends: \${shlibs:Depends}, \${misc:Depends}
-Description: Nginx with Lua support
- Custom nginx build
-EOF
+dos2unix debian/control
 
-echo "checking control file..."
+echo "checking control file... cat -A 出现 $   ⚠ CRLF"
 nl -ba ./debian/control
 cat -A debian/control
 echo "validating..."
