@@ -38,3 +38,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN ls -alh /build/
 
+RUN bash /build/nginx-lua-deb/scripts/build-deb.sh
+RUN ls -alh /build/src
+
