@@ -24,6 +24,9 @@ Description: Nginx with Lua module
  Custom nginx build with embedded Lua support
 EOF
 
+# debian/source/format = 3.0 (quilt) 必须有“上游源码 tarball”  ✔ native 模式特点：不需要 .orig.tar.*
+echo "3.0 (native)" > debian/source/format
+
 dos2unix debian/control
 dos2unix debian/*
 
