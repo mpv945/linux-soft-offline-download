@@ -104,13 +104,13 @@ jobs:
           rm -rf offline.tar
           rm -rf offline
 
-      # compression-level: 0 表示不压缩，0~9，默认6
+      # compression-level: 0 表示不压缩，0~9，默认6, 但是还是会生成zip
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
           name: docker-offline
           path: docker-offline.tar.gz
-          compression-level: 0
+          # compression-level: 0
           
 
 
