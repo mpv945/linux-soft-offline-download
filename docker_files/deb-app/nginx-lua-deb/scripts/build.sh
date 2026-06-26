@@ -44,6 +44,8 @@ dpkg-source -b . || true
 echo "Building deb package..."
 dpkg-buildpackage -us -uc -b
 
-mkdir -p /offline && cp nginx-lua_*.deb /offline/
+mkdir -p /offline && ls -alh .
+
+cp nginx-lua_*.deb /offline/
 
 ls -alh /offline/
