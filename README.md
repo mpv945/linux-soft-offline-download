@@ -63,6 +63,9 @@ LimitNPROC=1048576
 TasksMax=infinity
 最后systemctl daemon-reload && systemctl restart docker
 
+/etc/docker/daemon.json 通常是不存在的。
+Linux：/etc/docker/daemon.json 【Windows：C:\ProgramData\docker\config\daemon.json】
+ls /etc/docker 如果没有： sudo mkdir -p /etc/docker 然后：
 建议的 daemon.json（生产推荐）
 {
   "data-root": "/data/docker",
@@ -115,6 +118,8 @@ sudo systemctl restart docker
 如果有containerd
 sudo systemctl restart containerd
 sudo systemctl restart docker
+
+验证：docker info | grep "Docker Root Dir" 或者 docker info | grep "Logging Driver" 是否和上面配置参数一样
 
 
 # 加载docker镜像
