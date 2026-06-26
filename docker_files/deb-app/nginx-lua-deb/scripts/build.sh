@@ -49,3 +49,10 @@ mkdir -p /offline && ls -alh ../
 cp ../nginx-lua_*.deb /offline/
 
 ls -alh /offline/
+
+dpkg-deb -c /offline/nginx-lua_*.deb | head -200
+
+mkdir /tmp/deb
+dpkg-deb -x nginx-lua_1.24.0-1_amd64.deb /tmp/deb
+
+ls -R /tmp/deb
