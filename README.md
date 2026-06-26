@@ -1,6 +1,11 @@
 # 使用
 ```bash
 
+# 加载docker镜像
+#  -o duckdb-python.tar # 加载：docker load -i nginx.tar
+#run: docker save duckdb-python:latest | gzip > duckdb-python.tar.gz 加载 gunzip -c nginx.tar.gz | docker load 或者 zcat nginx.tar.gz | docker load
+run: docker save duckdb-python:latest | xz > duckdb-python.tar.xz # 加载 xz -d -c nginx.tar.xz | docker load
+        
 git add .
 git commit -m "同步参数yum reposync 方式" 
 git -c http.proxy=http://127.0.0.1:7897 -c https.proxy=http://127.0.0.1:7897 push origin main
