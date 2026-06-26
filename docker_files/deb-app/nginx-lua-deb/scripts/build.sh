@@ -55,6 +55,6 @@ dpkg-deb -c /offline/nginx-lua_*.deb | head -200
 
 echo "解压到目录查看"
 mkdir /tmp/deb
-dpkg-deb -x /offline/nginx-lua_*.deb/tmp/deb
+dpkg-deb -x /offline/nginx-lua_*.deb /tmp/deb
 
 ls -R /tmp/deb
