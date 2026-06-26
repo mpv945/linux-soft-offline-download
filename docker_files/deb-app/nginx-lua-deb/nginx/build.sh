@@ -32,6 +32,7 @@ echo "checking control file... cat -A 出现 $   ⚠ CRLF"
 nl -ba ./debian/control
 cat -A debian/control
 echo "validating..."
+
 dpkg-source -b . || true
 
 echo "Building deb package..."
