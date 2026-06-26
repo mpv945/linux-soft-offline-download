@@ -9,4 +9,6 @@ cp -r /build/nginx-lua-deb/nginx/debian .
 echo "Building deb package..."
 dpkg-buildpackage -us -uc -b
 
-mkdir -p /offline && cp nginx-lua_*.deb offline/
+mkdir -p /offline && cp nginx-lua_*.deb /offline/
+
+ls -alh /offline/
